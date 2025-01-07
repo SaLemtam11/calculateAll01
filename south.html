@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>برنامج حساب التعويضات الاساسية</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+    
+            body {
+                font-family: 'Tajawal', sans-serif;
+                background-color: #f8f9fa;
+                margin: 0;
+                padding: 0;
+                direction: rtl;
+                text-align: center;
+            }
+    
+            h2 {
+                color: #333;
+                margin-top: 20px;
+                font-size: 28px;
+                font-weight: bold;
+            }
+    
+            .container {
+                max-width: 900px;
+                margin: 30px auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 12px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+    
+            .back-button {
+                display: inline-block;
+                margin: 20px auto;
+                padding: 12px 20px;
+                background-color: #007bff;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 8px;
+                font-size: 16px;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+    
+            .back-button:hover {
+                background-color: #0056b3;
+                transform: scale(1.05);
+            }
+    
+            .container table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+    
+            th, td {
+                padding: 12px;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+    
+            th {
+                background-color: #007bff;
+                color: white;
+                font-size: 16px;
+            }
+    
+            td {
+                background-color: #f8f9fa;
+                font-size: 14px;
+                color: #555;
+            }
+    
+            input[type="date"], input[type="time"], input[type="number"] {
+                width: 100%;
+                padding: 8px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                background-color: #f1f1f1;
+                font-size: 14px;
+            }
+    
+            button {
+                background-color: #007bff;
+                color: white;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                margin: 10px;
+                font-size: 16px;
+                transition: transform 0.2s ease, background-color 0.3s ease;
+            }
+    
+            button:hover {
+                background-color: #0056b3;
+                transform: scale(1.05);
+            }
+    
+            .add-button, .calculate-button, .download-button {
+                margin-top: 20px;
+            }
+    
+            .remove-button {
+                background-color: #dc3545;
+                color: white;
+                padding: 6px 12px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+    
+            .remove-button:hover {
+                background-color: #c82333;
+            }
+    
+            .total-row {
+                background-color: #d4edda;
+                font-weight: bold;
+                padding: 10px;
+                border-radius: 8px;
+                margin-top: 20px;
+            }
+    
+            .total-row p {
+                margin: 5px 0;
+            }
+    
+            @media screen and (max-width: 768px) {
+                h2 {
+                    font-size: 18px;
+                }
+    
+                .container {
+                    width: 90%;
+                    padding: 15px;
+                }
+    
+                th, td {
+                    font-size: 12px;
+                    padding: 8px;
+                }
+    
+                button {
+                    font-size: 14px;
+                    padding: 8px 16px;
+                    margin: 5px;
+                }
+    
+                input[type="date"], input[type="time"], input[type="number"] {
+                    font-size: 12px;
+                }
+            }
+    
+            @media screen and (max-width: 480px) {
+                th, td {
+                    font-size: 10px;
+                    padding: 6px;
+                }
+    
+                button {
+                    font-size: 12px;
+                    padding: 6px 12px;
+                }
+    
+                .container {
+                    width: 95%;
+                    padding: 10px;
+                }
+    
+                .add-button, .calculate-button, .download-button {
+                    width: 100%;
+                    font-size: 14px;
+                    margin-top: 15px;
+                }
+    
+                input[type="date"], input[type="time"], input[type="number"] {
+                    font-size: 10px;
+                    padding: 6px;
+                }
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    </head>
+    
+<body>
+    <h2>برنامج حساب التعويضات الاساسية</h2>
+    <a href="index.html" class="back-button">الرجوع إلى الصفحة الرئيسية</a>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>تاريخ الذهاب</th>
+                    <th>ساعة الذهاب</th>
+                    <th>تاريخ الرجوع</th>
+                    <th>ساعة الرجوع</th>
+                    <th>المسافة (كم)</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="inputTableBody">
+                <!-- البيانات المدخلة هنا -->
+            </tbody>
+        </table>
+        <button class="add-button" onclick="addRow()">إضافة تاريخ جديد</button>
+        <button class="calculate-button" onclick="calculateAll()">احسب</button>
+        <button class="download-button" onclick="downloadExcel()">حفظ البيانات في Excel</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>تاريخ الذهاب</th>
+                    <th>تاريخ الرجوع</th>
+                    <th>مجموع الوجبات (غداء وعشاء)</th>
+                    <th>عدد الليالي (المبيت)</th>
+                    <th>التعويضات اليومية (دج)</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- النتائج المحسوبة هنا -->
+            </tbody>
+        </table>
+
+        <div class="total-row">
+            <p>مجموع الوجبات: <span id="totalMeals">0</span></p>
+            <p>مجموع الليالي: <span id="totalNights">0</span></p>
+            <p>مجموع التعويضات اليومية: <span id="totalCompensations">0</span> دج</p>
+        </div>
+
+       
+    </div>
+
+    <script>
+        const mealCost = 1000;  // تكلفة الوجبة
+        const nightCost = 4000;  // تكلفة المبيت
+
+        function addRow() {
+            const tableBody = document.getElementById('inputTableBody');
+            const newRow = `
+                <tr>
+                    <td><input type="date" class="startDate"></td>
+                    <td><input type="time" class="startTime"></td>
+                    <td><input type="date" class="endDate"></td>
+                    <td><input type="time" class="endTime"></td>
+                    <td><input type="number" class="distance" placeholder="أدخل المسافة"></td>
+                    <td><button class="remove-button" onclick="removeRow(this)">حذف</button></td>
+                </tr>
+            `;
+            tableBody.insertAdjacentHTML('beforeend', newRow);
+        }
+
+        function removeRow(button) {
+            button.parentElement.parentElement.remove();
+        }
+
+        function calculateAll() {
+            const rows = document.querySelectorAll('#inputTableBody tr');
+            const resultsBody = document.getElementById('resultsBody');
+            resultsBody.innerHTML = '';
+            let totalMeals = 0;
+            let totalNights = 0;
+            let totalCompensations = 0;
+
+            rows.forEach(row => {
+                const startDate = row.querySelector('.startDate').value;
+                const startTime = row.querySelector('.startTime').value;
+                const endDate = row.querySelector('.endDate').value;
+                const endTime = row.querySelector('.endTime').value;
+                const distance = parseFloat(row.querySelector('.distance').value);
+
+                if (!startDate || !startTime || !endDate || !endTime || isNaN(distance)) {
+                    alert("الرجاء إدخال جميع البيانات في الصفوف قبل الحساب!");
+                    return;
+                }
+
+                if (distance <= 50) {
+                    alert("المسافة يجب أن تكون أكبر من 50 كيلومترًا لتطبيق التعويضات!");
+                    return;
+                }
+
+                const startDateTime = new Date(`${startDate}T${startTime}`);
+                const endDateTime = new Date(`${endDate}T${endTime}`);
+
+                if (endDateTime <= startDateTime) {
+                    alert("تاريخ الرجوع يجب أن يكون بعد تاريخ الذهاب!");
+                    return;
+                }
+
+                let mealCount = 0;
+                let nightCount = 0;
+
+                let currentDate = new Date(startDateTime);
+
+                while (currentDate <= endDateTime) {
+                    const dayStart = new Date(currentDate.setHours(0, 0, 0));
+                    const dayEnd = new Date(currentDate.setHours(23, 59, 59));
+
+                    if (dayEnd > endDateTime) dayEnd.setTime(endDateTime.getTime());
+
+                    if (
+                        startDateTime <= new Date(dayStart).setHours(14, 0, 0) &&
+                        endDateTime >= new Date(dayStart).setHours(11, 0, 0)
+                    ) {
+                        mealCount++;
+                    }
+                    if (
+                        startDateTime <= new Date(dayStart).setHours(21, 0, 0) &&
+                        endDateTime >= new Date(dayStart).setHours(18, 0, 0)
+                    ) {
+                        mealCount++;
+                    }
+
+                    if (
+                        startDateTime <= new Date(dayStart).setHours(6, 0, 0) &&
+                        endDateTime >= new Date(dayStart).setHours(0, 0, 0)
+                    ) {
+                        nightCount++;
+                    }
+
+                    currentDate.setDate(currentDate.getDate() + 1);
+                    currentDate.setHours(0, 0, 0);
+                }
+
+                const mealCompensation = mealCount * mealCost;  // تكلفة الوجبات
+                const nightCompensation = nightCount * nightCost;  // تكلفة المبيت
+                const totalCompensation = mealCompensation + nightCompensation;  // مجموع التعويضات اليومية
+
+                resultsBody.insertAdjacentHTML('beforeend', `
+                    <tr class="result-row">
+                        <td>${startDate} ${startTime}</td>
+                        <td>${endDate} ${endTime}</td>
+                        <td>${mealCount}</td>
+                        <td>${nightCount}</td>
+                        <td>${totalCompensation} دج</td>
+                    </tr>
+                `);
+
+                totalMeals += mealCount;
+                totalNights += nightCount;
+                totalCompensations += totalCompensation;
+            });
+
+            document.getElementById('totalMeals').textContent = totalMeals;
+            document.getElementById('totalNights').textContent = totalNights;
+            document.getElementById('totalCompensations').textContent = totalCompensations + " دج";
+        }
+
+        function downloadExcel() {
+            const rows = document.querySelectorAll('#resultsBody tr');
+            const data = [
+                ["تاريخ الذهاب", "تاريخ الرجوع", "مجموع الوجبات", "عدد الليالي", "التعويضات اليومية"]
+            ];
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const rowData = Array.from(cells).map(cell => cell.textContent);
+                data.push(rowData);
+            });
+
+            const worksheet = XLSX.utils.aoa_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "نتائج الحساب");
+            XLSX.writeFile(workbook, "نتائج_الحساب.xlsx");
+        }
+    </script>
+</body>
+</html>

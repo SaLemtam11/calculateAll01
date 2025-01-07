@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية - برنامج حساب التعويضات</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            direction: rtl;
+            text-align: center;
+           /* background: url('pngegg.png') no-repeat center center/cover;*/
+
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 10px;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 18px;
+        }
+
+        .datetime {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #f8f9fa;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .datetime span {
+            display: block;
+        }
+
+        .date {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .time {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 300px;
+          /*  background: url('pngegg.png') no-repeat center center/cover;*/
+        }
+
+        .hero h2 {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h3 {
+            color: #007bff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: block;
+            margin: 15px auto;
+            padding: 15px 25px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        footer {
+            margin-top: 30px;
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero {
+                height: 200px;
+            }
+
+            .hero h2 {
+                font-size: 20px;
+                padding: 8px 15px;
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>برنامج حساب التعويضات</h1>
+        <p>أهلاً بك في بوابتك لإدارة حسابات التعويضات</p>
+        
+    </header>
+    <div class="datetime">
+        <span class="date" id="currentDate"></span>
+        <span class="time" id="currentTime"></span>
+    </div>
+    <div class="hero">
+        <h2>الخزينة البلدية</h2>
+    </div>
+
+    <div class="container">
+        <h3>اختر وجهتك</h3>
+        <a href="north.html" class="button">مناطق الشمال</a>
+        <a href="south.html" class="button">مناطق الجنوب</a>
+    </div>
+
+    <footer>
+        <p>© 2025 الخزينة البلدية - جميع الحقوق محفوظة</p>
+    </footer>
+    <script>
+        function updateDateTime() {
+            const dateElement = document.getElementById('currentDate');
+            const timeElement = document.getElementById('currentTime');
+            const now = new Date();
+    
+            // إعدادات اللغة الفرنسية
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const date = now.toLocaleDateString('fr-FR', options); // التاريخ بالفرنسية
+            const time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    
+            dateElement.textContent = date;
+            timeElement.textContent = time;
+        }
+    
+        // تحديث الوقت كل ثانية
+        setInterval(updateDateTime, 1000);
+        // استدعاء دالة التحديث مباشرة عند تحميل الصفحة
+        updateDateTime();
+    </script>
+    
+</body>
+</html>
