@@ -302,21 +302,21 @@
                     if (dayEnd > endDateTime) dayEnd.setTime(endDateTime.getTime());
 
                     if (
-                        startDateTime <= new Date(dayStart).setHours(14, 0, 0) &&
-                        endDateTime >= new Date(dayStart).setHours(11, 0, 0)
+                        startDateTime < new Date(dayStart).setHours(14, 0, 0) &&
+                        endDateTime > new Date(dayStart).setHours(11, 0, 0)
                     ) {
                         mealCount++;
                     }
                     if (
-                        startDateTime <= new Date(dayStart).setHours(21, 0, 0) &&
-                        endDateTime >= new Date(dayStart).setHours(18, 0, 0)
+                        startDateTime < new Date(dayStart).setHours(21, 0, 0) &&
+                        endDateTime > new Date(dayStart).setHours(18, 0, 0)
                     ) {
                         mealCount++;
                     }
 
                     if (
-                        startDateTime <= new Date(dayStart).setHours(6, 0, 0) &&
-                        endDateTime >= new Date(dayStart).setHours(0, 0, 0)
+                        startDateTime < new Date(dayStart).setHours(6, 0, 0) &&
+                        endDateTime > new Date(dayStart).setHours(0, 0, 0)
                     ) {
                         nightCount++;
                     }
