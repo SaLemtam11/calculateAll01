@@ -315,8 +315,8 @@
                     }
 
                     if (
-                        startDateTime < new Date(dayStart).setHours(5, 59, 0) &&
-                        endDateTime > new Date(dayStart).setHours(0, 0, 0)
+                        startDateTime < new Date(dayStart).setHours(0, 0, 0) &&
+                        endDateTime > new Date(dayStart).setHours(6, 0, 0)
                     ) {
                         nightCount++;
                     }
